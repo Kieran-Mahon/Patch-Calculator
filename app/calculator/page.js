@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from "@/components/ui/combobox";
 import { FieldGroup, Field, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 
 const ports = [
   "A1",
@@ -22,7 +21,7 @@ export default function Home() {
       <CardHeader>
         <FieldGroup>
           <Field>
-            <FieldLabel>Start Port</FieldLabel>
+            <FieldLabel>Start Port:</FieldLabel>
             <Combobox items={ports}>
               <ComboboxInput placeholder=". . ." />
                 <ComboboxContent>
@@ -39,7 +38,7 @@ export default function Home() {
           </Field>
           
           <Field>
-            <FieldLabel>End Port</FieldLabel>
+            <FieldLabel>End Port:</FieldLabel>
             <Combobox items={ports}>
               <ComboboxInput placeholder=". . ." />
                 <ComboboxContent>
