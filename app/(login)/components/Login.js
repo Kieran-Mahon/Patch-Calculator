@@ -1,10 +1,18 @@
-import TextInput from "@/components/TextInput";
+import { Field, FieldGroup, FieldSeparator, FieldDescription, FieldLabel} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 
 export default function Login() {
   return (
-    <div className="flex flex-col w-full items-center justify-center bg-blue-100">
-        <TextInput label="Username" text="Enter your username" />
-        <TextInput label="Password" text="Enter your password" />
+    <div className="w-full bg-red-100">
+      <FieldGroup>
+        <Field>
+          <Input type="text" placeholder="Username" />
+        </Field>
+        <FieldSeparator />
+        <Field>
+          <Input type="password" placeholder="Password" />
+        </Field>
+      </FieldGroup>
     </div>
   );
 }

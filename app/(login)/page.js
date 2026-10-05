@@ -1,23 +1,11 @@
-import Image from "next/image";
-import Login from "./components/Login";
+import { LoginForm } from "@/components/login-form"
 
-export default function Home() {
+export default function Page() {
   return (
-    <div className="flex flex-col w-full items-center justify-center bg-blue-100">
-
-        <h1>test</h1>
-
-        <Image
-          className="h-[100px] w-[100px]"
-          src="/tempimg.jpg"
-          alt="Next.js logo"
-          width={100}
-          height={100}
-          priority
-        />
-
-        <Login />
-
+    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+      <div className="w-full max-w-sm">
+        <LoginForm />
+      </div>
     </div>
-  );
+  )
 }
