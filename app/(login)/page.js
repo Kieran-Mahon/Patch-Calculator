@@ -1,22 +1,30 @@
-import Login from "./components/Login";
-import Image from "next/image";
+'use client';
+
+import { useState } from "react";
+import LoginModel from "./loginmodel";
+import { useRouter } from 'next/navigation'
+import LoginView from "./loginview";
 
 export default function Page() {
+  const loginModel = new LoginModel();
+  const router = useRouter()
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
+
+  const tryLogin = () => {
+    //Check if username and password is correct
+    if (username === loginModel.getUsername() && password === loginModel.getPassword()) {
+      setLoginError("");
+      router.push('/calculator')
+      return true;
+    }
+    setLoginError("Invalid username or password!");
+    return false;
+  }
+
   return (
-    <div className="flex flex-col min-h-svh w-full items-center justify-center p-6 md:p-10">
-
-      <h1>Patch Path Finder</h1>
-      
-      <Image
-          className="h-[200px] w-[200px]"
-          src="/tempimg.jpg"
-          alt="Next.js logo"
-          width={200}
-          height={200}
-          priority
-        />
-
-      <Login />
-    </div>
-  )
+    <LoginView setUsername={setUsername} setPassword={setPassword} tryLogin={tryLogin} username={username} password={password} loginError={loginError} />
+  );
 }
