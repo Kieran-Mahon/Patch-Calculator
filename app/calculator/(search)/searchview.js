@@ -23,14 +23,18 @@ export default function SearchView({ports, setStartPort, setEndPort, startPort, 
             <FieldGroup>
             <Field>
               <FieldLabel>Start Port:</FieldLabel>
-              <Combobox items={ports} onValueChange={(value) => {setStartPort(value)}}>
+              <Combobox
+                items={ports}
+                onValueChange={(value) => {setStartPort(value)}}
+                itemToStringValue={(item) => item.type + " - " + item.label + " (" + item.location + ")"}
+              >
               <ComboboxInput placeholder=". . ." />
                   <ComboboxContent>
                   <ComboboxEmpty>No ports found.</ComboboxEmpty>
                   <ComboboxList>
                     {(item) => (item && (
-                      <ComboboxItem key={item.label} value={item.label}>
-                        {item.label}
+                      <ComboboxItem key={item.id} value={item}>
+                        {item.type + " - " + item.label + " (" + item.location + ")"}
                       </ComboboxItem>
                     )
                   )}
@@ -41,14 +45,18 @@ export default function SearchView({ports, setStartPort, setEndPort, startPort, 
             
             <Field>
               <FieldLabel>End Port:</FieldLabel>
-              <Combobox items={ports} onValueChange={(value) => {setEndPort(value)}}>
+              <Combobox
+                items={ports}
+                onValueChange={(value) => {setEndPort(value)}}
+                itemToStringValue={(item) => item.type + " - " + item.label + " (" + item.location + ")"}
+              >
               <ComboboxInput placeholder=". . ." />
                   <ComboboxContent>
                   <ComboboxEmpty>No ports found.</ComboboxEmpty>
                   <ComboboxList>
                     {(item) => (item && (
-                      <ComboboxItem key={item.label} value={item.label}>
-                        {item.label}
+                      <ComboboxItem key={item.id} value={item}>
+                        {item.type + " - " + item.label + " (" + item.location + ")"}
                       </ComboboxItem>
                     )
                   )}
@@ -83,7 +91,6 @@ export default function SearchView({ports, setStartPort, setEndPort, startPort, 
               </AlertDescription>
             </Alert>
           }
-          
         </CardContent>
       </Card>
     </div>

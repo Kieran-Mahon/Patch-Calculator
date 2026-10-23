@@ -1,21 +1,52 @@
 "use client"
-import { Button } from "@/components/ui/button";
-import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from "@/components/ui/combobox";
-import { FieldGroup, Field, FieldLabel } from "@/components/ui/field";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Item, ItemContent, ItemGroup, ItemMedia, ItemTitle } from "@/components/ui/item";
+import Edge from "@/lib/Edge";
+import { ArrowDownIcon, EthernetPortIcon, MoveHorizontalIcon, ShieldAlertIcon } from "lucide-react";
 
 export default function ResultList({option}) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{option.label}:</CardTitle>
+        <CardTitle>{option.key}:</CardTitle>
       </CardHeader>
+
       <CardContent>
-        <ul>
+        <ItemGroup className="gap-1">
           {option.path.map((element, index) => (
-            <li key={index}>{element.type}</li>
+            element.label ? (
+              <Item variant="outline" key={index}>
+                <ItemMedia variant="icon">
+                  <ShieldAlertIcon />
+                </ItemMedia>
+                <ItemContent>
+                  <ItemTitle>
+                    {element.type + " - " + element.label + " (" + element.location + ")"}
+                  </ItemTitle>
+                </ItemContent>
+              </Item>
+            ) : (
+              <Item key={index}>
+                <ItemContent className="flex items-center justify-center">
+                  <ItemTitle className="text-center">
+                    {element.type == Edge.types.TIELINE ? (
+                      <ArrowDownIcon />
+                    ) : (
+                      <div className="flex flex-col items-center jusify-center">
+                        <div className="flex items-center jusify-center">
+                          <EthernetPortIcon />
+                          <MoveHorizontalIcon />
+                          <EthernetPortIcon />
+                        </div>
+                        <h1>Patch needed!</h1>
+                      </div>
+                    )}
+                  </ItemTitle>
+                </ItemContent>
+              </Item>
+            )
           ))}
-        </ul>
+        </ItemGroup>
       </CardContent>
     </Card>
   );

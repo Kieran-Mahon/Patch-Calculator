@@ -8,7 +8,7 @@ export default function Home() {
   const router = useRouter()
 
 
-//Pulls the result data from the page click
+  //Pulls the result data from the page click
   const rawData = useSearchParams().get('data')
   var parsedData = [];
   if (rawData) {
@@ -30,14 +30,20 @@ export default function Home() {
     router.push('/admin');
   }
 
-  const changeSelectedOption = (label) => {
-    setSelectedOption(resultData.find(n => n.label === label));
+  const openSearch = () => {
+    router.push('/calculator');
   }
 
+  const changeSelectedOption = (key) => {
+    setSelectedOption(resultData.find(n => n.key === key));
+  }
+
+  console.log(parsedData)
   return (
     <ResultView
       logout={logout}
       openAdmin={openAdmin}
+      openSearch={openSearch}
       errorMessage={errorMessage}
       options={resultData}
       selectedOption={selectedOption}

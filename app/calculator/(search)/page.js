@@ -48,16 +48,31 @@ export default function Home() {
       return;
     }
 
+    //Make sure the start and end ports are of the same type
+    if (startPort.type != endPort.type) {
+      setErrorMessage("The start and end ports must be of the same type!");
+      return;
+    }
+
     //Get references via the label
-    const start = searchModel.getGraph().getNodes().find(n => n.label === startPort);
-    const end = searchModel.getGraph().getNodes().find(n => n.label === endPort);
+    const start = searchModel.getGraph().getNodes().find(n => n.id === startPort.id);
+    const end = searchModel.getGraph().getNodes().find(n => n.id === endPort.id);
+
+    //Simplify the graph so it only has all of the requested type
+    var sortedNodes = [];
+    searchModel.getGraph().getNodes().forEach(node => {
+      if (node.type == startPort.type) {
+        sortedNodes.push(node);
+      }
+    });
+
 
     //Find the 3 shortest paths
-    const paths = YenKSP(searchModel.getGraph(), start, end, 3);
+    const paths = YenKSP(sortedNodes, start, end, 3);
     setResults(paths);
-    console.log(paths);
 
-    //Check if any were found
+
+    //Check if any paths were found
     if (paths.length == 0) {
       //None found
       setPathFound(false);
@@ -68,8 +83,8 @@ export default function Home() {
     }
   }
 
-  
-  const YenKSP = (graph, start, end, K) => {
+  //Yen's k shortest path
+  const YenKSP = (nodes, start, end, K) => {
     if (start === end) {
       return [{
         path: [start],
@@ -78,7 +93,7 @@ export default function Home() {
     }
 
     //Find shortest path
-    const shortestPath = Dijkstra(graph, start, end);
+    const shortestPath = Dijkstra(nodes, start, end);
 
     if (shortestPath.path.length === 0) {
       return [];
@@ -94,9 +109,19 @@ export default function Home() {
     const acceptedKeys = new Set();
 
     //Function to make keys so the paths can be checked that they haven't be used before
-    const pathKey = path => JSON.stringify(path.map(node => node.label));
+    const pathKey = path => JSON.stringify(path.map(node => node.id));
     acceptedKeys.add(pathKey(shortestPath.path));
 
+    //Function to find paths with the same location 3 times in a row
+    const hasThreeConsecutiveLocations = (path) => {
+      for (let i = 0; i < path.length - 2; i++) {
+        if (path[i].location === path[i + 1].location && path[i + 1].location === path[i + 2].location) {
+          return true;
+        }
+      }
+      return false;
+    };
+    
     //Find the edge connecting two nodes
     const getEdgeBetween = (nodeA, nodeB) => {
       return nodeA.getConnectedEdges().find(edge => edge.getOppositeNode(nodeA) === nodeB);
@@ -159,13 +184,20 @@ export default function Home() {
         }
 
         //Find the shortest path on the spur
-        const spurShortestPath = Dijkstra(graph, spurNode, end, excludedNodes,excludedEdges);
+        const spurShortestPath = Dijkstra(nodes, spurNode, end, excludedNodes,excludedEdges);
 
         if (spurShortestPath.path.length === 0) continue;
 
         //Remove the last node in the root path then combine with the spur path
         var totalPath = rootPath.slice(0, -1);
         totalPath = totalPath.concat(spurShortestPath.path);
+
+        //Check if the path has 3 consecutive nodes in the same location
+        //A port only has one in/out at a location, not two, so this blocks that
+        if (hasThreeConsecutiveLocations(totalPath)) {
+          continue;
+        }
+
 
         //Get key of the path
         const key = pathKey(totalPath);
@@ -211,7 +243,7 @@ export default function Home() {
   };
 
   //Dijkstra's shortest path algorithm which is used to find the shortest path within the Yen algorithm
-  const Dijkstra = (graph, start, end, excludedNodes = new Set(), excludedEdges = new Set()) => {
+  const Dijkstra = (nodes, start, end, excludedNodes = new Set(), excludedEdges = new Set()) => {
     
     //Helper code for the yen algorithm, basically checks if the start or end nodes of the path are excluded from being checked
     if (excludedNodes.has(start) || excludedNodes.has(end)) {
@@ -227,7 +259,7 @@ export default function Home() {
     const unvisited = new Set();
     
     //Intitalise the nodes
-    graph.getNodes().forEach(node => {
+    nodes.forEach(node => {
       distances.set(node, Number.MAX_SAFE_INTEGER);
       previous.set(node, null);
       unvisited.add(node);
@@ -336,7 +368,7 @@ export default function Home() {
 
       //Save the first node to the cleaned list as a dummy node
       var previousNode = path.path[0];
-      const dummyNode = new Node(previousNode.type, previousNode.label, previousNode.location);
+      const dummyNode = new Node(previousNode.id, previousNode.type, previousNode.label, previousNode.location);
       currentCleanOption.push(dummyNode);
 
       //Loop over the next nodes and add them to the list
@@ -360,7 +392,7 @@ export default function Home() {
         }
 
         //Add the node as a dummy node
-        const dummyNode = new Node(node.type, node.label, node.location);
+        const dummyNode = new Node(node.id, node.type, node.label, node.location);
         currentCleanOption.push(dummyNode);
 
         //Set the new previous node
@@ -369,7 +401,7 @@ export default function Home() {
 
       //Add the current path to the all paths cleaned list
       cleanedOptions.push({
-        label: path.key,
+        key: path.key,
         path: currentCleanOption
       });
     });
