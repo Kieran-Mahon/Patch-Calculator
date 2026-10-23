@@ -4,7 +4,7 @@ import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/componen
 import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from "@/components/ui/combobox";
 import ResultList from "./components/ResultList";
 
-export default function ResultView({logout, openAdmin, errorMessage, options, selectedOption, setSelectedOption}) {
+export default function ResultView({logout, openAdmin, errorMessage, options, selectedOption, changeSelectedOption}) {
   return (
     <div>
       <header className="flex items-center justify-between p-4 ">
@@ -24,26 +24,24 @@ export default function ResultView({logout, openAdmin, errorMessage, options, se
               BACK
             </Button>
           </CardAction>
-        </CardHeader>
-
-        <CardContent>
-          <Combobox items={options} defaultValue={options[0]} onValueChange={(value) => {setSelectedOption(value)}}>
+          <Combobox items={options} defaultValue={options[0]} onValueChange={(value) => {changeSelectedOption(value)}}>
             <ComboboxInput placeholder=". . ." />
               <ComboboxContent>
                 <ComboboxEmpty>No options found.</ComboboxEmpty>
                 <ComboboxList>
                   {(item) => (
-                    <ComboboxItem key={item.label} value={item}>
+                    <ComboboxItem key={item.label} value={item.label}>
                       {item.label}
                     </ComboboxItem>
                   )}
                 </ComboboxList>
               </ComboboxContent>
           </Combobox>
+        </CardHeader>
+        <CardContent>
+          <ResultList option={selectedOption} />
         </CardContent>
       </Card>
-
-      <ResultList option={selectedOption} />
     </div>
   );
 }

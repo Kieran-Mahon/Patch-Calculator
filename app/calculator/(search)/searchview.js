@@ -1,10 +1,12 @@
 "use client"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from "@/components/ui/combobox";
 import { FieldGroup, Field, FieldLabel } from "@/components/ui/field";
+import { AlertTriangleIcon, MapPin } from "lucide-react";
 
-export default function SearchView({ports, setStartPort, setEndPort, startPort, endPort, calculateShortestPath, logout, openAdmin, errorMessage}) {
+export default function SearchView({ports, setStartPort, setEndPort, startPort, endPort, calculateShortestPath, logout, openAdmin, errorMessage, pathFound, openResults}) {
   return (
     <div>
       <header className="flex items-center justify-between p-4 ">
@@ -55,18 +57,33 @@ export default function SearchView({ports, setStartPort, setEndPort, startPort, 
             </Combobox>
             </Field>
             <Field>
-                <Button type="button" onClick={() => {calculateShortestPath()}}>
-                CALCULATE
-                </Button>
+              <Button type="button" onClick={() => {calculateShortestPath()}}>
+              CALCULATE
+              </Button>
             </Field>
           </FieldGroup>
         </CardHeader>
 
         <CardContent>
-          {errorMessage != "" && 
-            <p className="text-red-500 text-sm">{errorMessage}</p>
+          {errorMessage != "" &&
+            <Alert variant="destructive">
+              <AlertTriangleIcon />
+              <AlertTitle>Error!</AlertTitle>
+              <AlertDescription>{errorMessage}</AlertDescription>
+            </Alert>
           }
-          <h1>Result button area</h1>
+          {pathFound == true &&
+            <Alert>
+              <MapPin />
+              <AlertTitle><b>Path Found!</b></AlertTitle>
+              <AlertDescription>
+                <Button type="button" onClick={() => {openResults()}}>
+                  View Options
+                </Button>
+              </AlertDescription>
+            </Alert>
+          }
+          
         </CardContent>
       </Card>
     </div>

@@ -3,6 +3,8 @@ import { useState } from "react";
 import SearchView from "./searchview";
 import { useRouter } from 'next/navigation'
 import SearchModel from "./searchmodel";
+import Edge from "@/lib/Edge";
+import Node from "@/lib/Node";
 
 export default function Home() {
   const router = useRouter()
@@ -13,6 +15,8 @@ export default function Home() {
   const [startPort, setStartPort] = useState(null);
   const [endPort, setEndPort] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [results, setResults] = useState([]);
+  const [pathFound, setPathFound] = useState(false);
 
   const logout = () => {
     router.push('/');
@@ -20,6 +24,12 @@ export default function Home() {
 
   const openAdmin = () => {
     router.push('/admin');
+  }
+
+  const openResults = () => {
+    //Turn the results into JSON
+    const data = encodeURIComponent(JSON.stringify(PathDisplayCleanUp(results)));
+    router.push('/calculator/result?data=' + data);
   }
 
   const calculateShortestPath = () => {
@@ -38,12 +48,24 @@ export default function Home() {
       return;
     }
 
-    //console.log(Dijkstra(searchModel.getGraph(), startPort, endPort, new Map(), new Map()));
     //Get references via the label
     const start = searchModel.getGraph().getNodes().find(n => n.label === startPort);
     const end = searchModel.getGraph().getNodes().find(n => n.label === endPort);
 
-    console.log(YenKSP(searchModel.getGraph(), start, end, 3));
+    //Find the 3 shortest paths
+    const paths = YenKSP(searchModel.getGraph(), start, end, 3);
+    setResults(paths);
+    console.log(paths);
+
+    //Check if any were found
+    if (paths.length == 0) {
+      //None found
+      setPathFound(false);
+      setErrorMessage("No Path Found!");
+    } else {
+      //Path found
+      setPathFound(true);
+    }
   }
 
   
@@ -52,7 +74,7 @@ export default function Home() {
       return [{
         path: [start],
         distance: 0
-        }];
+      }];
     }
 
     //Find shortest path
@@ -175,7 +197,17 @@ export default function Home() {
       acceptedKeys.add(pathKey(nextPath.path));
     }
 
-    return A;
+    //Add keys to the accepted list
+    let keyedList = [];
+    for (let i = 0; i < A.length; i++) {
+      keyedList[i] = {
+        key: 'Option ' + (i + 1),
+        distance: A[i].distance,
+        path: A[i].path
+      };
+    }
+
+    return keyedList;
   };
 
   //Dijkstra's shortest path algorithm which is used to find the shortest path within the Yen algorithm
@@ -296,6 +328,56 @@ export default function Home() {
     };
   }
 
+  const PathDisplayCleanUp = (options) => {
+    const cleanedOptions = [];
+
+    options.forEach(path => {
+      const currentCleanOption = [];
+
+      //Save the first node to the cleaned list as a dummy node
+      var previousNode = path.path[0];
+      const dummyNode = new Node(previousNode.type, previousNode.label, previousNode.location);
+      currentCleanOption.push(dummyNode);
+
+      //Loop over the next nodes and add them to the list
+      //While there add the edge between it and the last node
+      //Add them as dummy versions to remove any linking between them as this is all display only
+      for (let i = 1; i < path.path.length; i++) {
+        const node = path.path[i];
+
+        //Find the edge
+        var edge = null
+        node.getConnectedEdges().forEach(nodeEdge => {
+          if (nodeEdge.getOppositeNode(node) == previousNode) {
+            edge = nodeEdge;
+          }
+        });
+
+        //Add the edge as a dummy edge, a edge without nodes
+        if (edge != null) { //If statment shouldn't be needed but added in case
+          const dummyEdge = new Edge(edge.type, edge.distance, null, null);
+          currentCleanOption.push(dummyEdge);
+        }
+
+        //Add the node as a dummy node
+        const dummyNode = new Node(node.type, node.label, node.location);
+        currentCleanOption.push(dummyNode);
+
+        //Set the new previous node
+        previousNode = node;
+      }
+
+      //Add the current path to the all paths cleaned list
+      cleanedOptions.push({
+        label: path.key,
+        path: currentCleanOption
+      });
+    });
+
+    //Return the cleaned data
+    return cleanedOptions;
+  }
+  
   return (
     <SearchView
       ports={ports}
@@ -307,6 +389,8 @@ export default function Home() {
       logout={logout}
       openAdmin={openAdmin}
       errorMessage={errorMessage}
+      pathFound={pathFound}
+      openResults={openResults}
     />
   )
 }

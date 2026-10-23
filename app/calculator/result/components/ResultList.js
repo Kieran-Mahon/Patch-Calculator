@@ -4,12 +4,6 @@ import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/componen
 import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from "@/components/ui/combobox";
 import { FieldGroup, Field, FieldLabel } from "@/components/ui/field";
 
-const ports = [
-  "Option 1",
-  "Option 2",
-  "Option 3"
-]
-
 export default function ResultList({option}) {
   return (
     <Card>
@@ -18,8 +12,8 @@ export default function ResultList({option}) {
       </CardHeader>
       <CardContent>
         <ul>
-          {option.path.map((port, index) => (
-            <li key={index}>{port}</li>
+          {option.path.map((element, index) => (
+            <li key={index}>{element.type}</li>
           ))}
         </ul>
       </CardContent>

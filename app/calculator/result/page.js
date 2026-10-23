@@ -1,28 +1,27 @@
 "use client"
 import { useState } from "react";
 import ResultView from "./resultview";
-
-const options = [
-  { label: "Option 1", path:
-    [ "port a",
-      "port b",
-      "port c" ]
-  },
-  { label: "Option 2", path:
-    [ "port d",
-      "port b",
-      "port a" ]
-  },
-  { label: "Option 3", path:
-    [ "port a",
-      "port b" ]
-  }
-]
+import { useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 
 export default function Home() {
-  const [selectedOption, setSelectedOption] = useState(options[0]);
-  const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter()
 
+
+//Pulls the result data from the page click
+  const rawData = useSearchParams().get('data')
+  var parsedData = [];
+  if (rawData) {
+    parsedData = JSON.parse(decodeURIComponent(rawData));
+  }
+
+  const [errorMessage, setErrorMessage] = useState("");
+  const [resultData, setResultData] = useState(parsedData);
+  const [selectedOption, setSelectedOption] = useState(parsedData[0]);
+
+
+
+  //Top bar buttons
   const logout = () => {
     router.push('/');
   }
@@ -31,14 +30,18 @@ export default function Home() {
     router.push('/admin');
   }
 
+  const changeSelectedOption = (label) => {
+    setSelectedOption(resultData.find(n => n.label === label));
+  }
+
   return (
     <ResultView
       logout={logout}
       openAdmin={openAdmin}
       errorMessage={errorMessage}
-      options={options}
+      options={resultData}
       selectedOption={selectedOption}
-      setSelectedOption={setSelectedOption}
+      changeSelectedOption={changeSelectedOption}
     />
   );
 }
