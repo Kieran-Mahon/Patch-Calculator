@@ -1,10 +1,6 @@
 "use client"
-import { Button } from "@/components/ui/button";
-import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from "@/components/ui/combobox";
-import { FieldGroup, Field, FieldLabel } from "@/components/ui/field";
-import ResultList from "./components/ResultList";
 import { useState } from "react";
+import ResultView from "./resultview";
 
 const options = [
   { label: "Option 1", path:
@@ -25,37 +21,24 @@ const options = [
 
 export default function Home() {
   const [selectedOption, setSelectedOption] = useState(options[0]);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const logout = () => {
+    router.push('/');
+  }
+
+  const openAdmin = () => {
+    router.push('/admin');
+  }
 
   return (
-    <div>
-       <Card>
-        <CardHeader>
-          <CardTitle>Options:</CardTitle>
-          <CardAction>
-            <Button>
-              BACK
-            </Button>
-          </CardAction>
-        </CardHeader>
-
-        <CardContent>
-          <Combobox items={options} defaultValue={options[0]} onValueChange={(value) => {setSelectedOption(value)}}>
-            <ComboboxInput placeholder=". . ." />
-              <ComboboxContent>
-                <ComboboxEmpty>No options found.</ComboboxEmpty>
-                <ComboboxList>
-                  {(item) => (
-                    <ComboboxItem key={item.label} value={item}>
-                      {item.label}
-                    </ComboboxItem>
-                  )}
-                </ComboboxList>
-              </ComboboxContent>
-          </Combobox>
-        </CardContent>
-      </Card>
-
-      <ResultList option={selectedOption} />
-    </div>
+    <ResultView
+      logout={logout}
+      openAdmin={openAdmin}
+      errorMessage={errorMessage}
+      options={options}
+      selectedOption={selectedOption}
+      setSelectedOption={setSelectedOption}
+    />
   );
 }
