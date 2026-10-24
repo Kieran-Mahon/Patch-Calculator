@@ -33,5 +33,12 @@ The system is built around a graph network where nodes are ports and edges are c
 
 
 ## Install
-abc
+* Clone the repo
+* Navigate and open it
+* Install the dependencies with "npm install"
+* Start the development server with "npm run dev"
+* Or create a build with "npm run build" and run it with "npm run start"
+
+## Try online at
+https://kieran-mahon.github.io/Patch-Calculator/
 

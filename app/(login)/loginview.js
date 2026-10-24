@@ -18,6 +18,7 @@ export default function LoginView({setUsername, setPassword, tryLogin, username,
       <Image
         className="h-[200px] w-[200px]"
         src={imagePath}
+        alt='temp image'
         width={200}
         height={200}
         priority
