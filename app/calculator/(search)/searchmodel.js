@@ -3,6 +3,7 @@ import GraphManager from "@/lib/GraphManager";
 import Node from "@/lib/Node";
 
 class SearchModel {
+  //Data used when none found
   mapJSON = {
     nodes: [
         {
@@ -112,7 +113,19 @@ class SearchModel {
     ]
   }
 
-  graphManager = new GraphManager(this.mapJSON);
+  graphManager = null;
+
+  constructor(savedData) {
+    if (savedData) {
+      //Load graph with local saved graph
+      savedData = JSON.parse(savedData);
+      this.graphManager = new GraphManager(savedData);
+    } else {
+      //Load graph with default json data
+      this.graphManager = new GraphManager(this.mapJSON);
+    }
+  }
+
   
   //Get ports
   getPorts() {
@@ -127,6 +140,10 @@ class SearchModel {
   //Get whole graph
   getGraph() {
     return this.graphManager.getGraph();
+  }
+
+  getGraphJSON() {
+    return this.graphManager.getGraphJSON();
   }
 }
 

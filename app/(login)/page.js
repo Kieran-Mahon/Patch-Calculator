@@ -17,6 +17,8 @@ export default function Page() {
     //Check if username and password is correct
     if (username === loginModel.getUsername() && password === loginModel.getPassword()) {
       setLoginError("");
+
+      //Switch to the calculator page
       router.push('/calculator')
       return true;
     }

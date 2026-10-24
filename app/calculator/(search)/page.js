@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchView from "./searchview";
 import { useRouter } from 'next/navigation'
 import SearchModel from "./searchmodel";
@@ -9,14 +9,29 @@ import Node from "@/lib/Node";
 export default function Home() {
   const router = useRouter()
 
-  const searchModel = new SearchModel();
-
-  const [ports, setPorts] = useState(searchModel.getPorts());
+  const [ports, setPorts] = useState([]);
   const [startPort, setStartPort] = useState(null);
   const [endPort, setEndPort] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [results, setResults] = useState([]);
   const [pathFound, setPathFound] = useState(false);
+  const [searchModel, setSearchModel] = useState(null);
+
+
+  //Load graph data if there is any saved locally (this would be changed to a database in the future)
+  useEffect(() => {
+    const savedData = localStorage.getItem("graphData");
+    const tempModel = new SearchModel(savedData);
+    setSearchModel(tempModel);
+
+    //Update the ports
+    setPorts(tempModel.getPorts());
+
+    //Save the graph data to local storage
+    localStorage.setItem("graphData", JSON.stringify(tempModel.getGraphJSON()));
+  }, []);
+
+
 
   const logout = () => {
     router.push('/');
@@ -409,7 +424,7 @@ export default function Home() {
     //Return the cleaned data
     return cleanedOptions;
   }
-  
+
   return (
     <SearchView
       ports={ports}
