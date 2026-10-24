@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react";
-import SearchView from "./searchview";
 import { useRouter } from 'next/navigation'
+import SearchView from "./searchview";
 import SearchModel from "./searchmodel";
 import Edge from "@/lib/Edge";
 import Node from "@/lib/Node";
@@ -30,8 +30,7 @@ export default function Home() {
     //Save the graph data to local storage
     localStorage.setItem("graphData", JSON.stringify(tempModel.getGraphJSON()));
   }, []);
-
-
+  
 
   const logout = () => {
     router.push('/');

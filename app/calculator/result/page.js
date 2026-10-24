@@ -38,7 +38,6 @@ export default function Home() {
     setSelectedOption(resultData.find(n => n.key === key));
   }
 
-  console.log(parsedData)
   return (
     <ResultView
       logout={logout}

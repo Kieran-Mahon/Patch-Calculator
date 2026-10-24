@@ -18,9 +18,9 @@ export default function SearchView({ports, setStartPort, setEndPort, startPort, 
           ADMIN
         </Button>
       </header>
-        <Card>
-          <CardHeader>
-            <FieldGroup>
+      <Card>
+        <CardHeader>
+          <FieldGroup>
             <Field>
               <FieldLabel>Start Port:</FieldLabel>
               <Combobox
@@ -28,19 +28,18 @@ export default function SearchView({ports, setStartPort, setEndPort, startPort, 
                 onValueChange={(value) => {setStartPort(value)}}
                 itemToStringValue={(item) => item.type + " - " + item.label + " (" + item.location + ")"}
               >
-              <ComboboxInput placeholder=". . ." />
-                  <ComboboxContent>
+                <ComboboxInput placeholder=". . ." />
+                <ComboboxContent>
                   <ComboboxEmpty>No ports found.</ComboboxEmpty>
                   <ComboboxList>
                     {(item) => (item && (
                       <ComboboxItem key={item.id} value={item}>
                         {item.type + " - " + item.label + " (" + item.location + ")"}
                       </ComboboxItem>
-                    )
-                  )}
-                </ComboboxList>
-              </ComboboxContent>
-            </Combobox>
+                    ))}
+                  </ComboboxList>
+                </ComboboxContent>
+              </Combobox>
             </Field>
             
             <Field>
@@ -50,23 +49,22 @@ export default function SearchView({ports, setStartPort, setEndPort, startPort, 
                 onValueChange={(value) => {setEndPort(value)}}
                 itemToStringValue={(item) => item.type + " - " + item.label + " (" + item.location + ")"}
               >
-              <ComboboxInput placeholder=". . ." />
-                  <ComboboxContent>
+                <ComboboxInput placeholder=". . ." />
+                <ComboboxContent>
                   <ComboboxEmpty>No ports found.</ComboboxEmpty>
                   <ComboboxList>
                     {(item) => (item && (
                       <ComboboxItem key={item.id} value={item}>
                         {item.type + " - " + item.label + " (" + item.location + ")"}
                       </ComboboxItem>
-                    )
-                  )}
-                </ComboboxList>
-              </ComboboxContent>
-            </Combobox>
+                    ))}
+                  </ComboboxList>
+                </ComboboxContent>
+              </Combobox>
             </Field>
             <Field>
               <Button type="button" onClick={() => {calculateShortestPath()}}>
-              CALCULATE
+                CALCULATE
               </Button>
             </Field>
           </FieldGroup>
