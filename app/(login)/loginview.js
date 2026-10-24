@@ -16,7 +16,6 @@ export default function LoginView({setUsername, setPassword, tryLogin, username,
       <Image
         className="h-[200px] w-[200px]"
         src="/tempimg.jpg"
-        alt="Next.js logo"
         width={200}
         height={200}
         priority
