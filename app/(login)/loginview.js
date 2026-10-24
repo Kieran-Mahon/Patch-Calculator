@@ -8,6 +8,8 @@ import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 
 export default function LoginView({setUsername, setPassword, tryLogin, username, password, loginError}) {
 
+  const imagePath = `${process.env.NODE_ENV === "production" ? "/network-patch-finder" : ""}/tempimg.jpg`;
+
   return (
     <div className="flex flex-col min-h-svh w-full items-center justify-center p-6 md:p-10">
 
@@ -15,7 +17,7 @@ export default function LoginView({setUsername, setPassword, tryLogin, username,
       
       <Image
         className="h-[200px] w-[200px]"
-        src="/tempimg.jpg"
+        src={imagePath}
         width={200}
         height={200}
         priority
