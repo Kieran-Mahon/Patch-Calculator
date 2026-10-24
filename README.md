@@ -20,6 +20,10 @@ Patch Path Finder is a path finding tool designed for use in an audio/visual foc
 ## How it works
 The system is built around a graph network where nodes are ports and edges are connections. A port is one of the common connectors (XLR, DMX, SDI, etc), while a connection is either a tieline (a direct connection) or patch (a connection which needs to be added by the user). The path finding uses the Yen's K-shortest path algorithm with use of Dijkstra's shortest path algorithm.
 
+## What the example network looks like
+![network example](<Readme Files/networkexample.png>)
+Blue are tielines and red are patchable links.
+
 ## What it was built with
 * Next JS
 * React
