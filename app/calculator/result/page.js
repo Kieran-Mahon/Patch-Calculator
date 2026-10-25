@@ -20,7 +20,6 @@ export default function Home() {
   const [selectedOption, setSelectedOption] = useState(parsedData[0]);
 
 
-
   //Top bar buttons
   const logout = () => {
     router.push('/');

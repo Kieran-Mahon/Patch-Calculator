@@ -16,9 +16,6 @@ export default function ResultList({option}) {
           {option.path.map((element, index) => (
             element.label ? (
               <Item variant="outline" key={index}>
-                <ItemMedia variant="icon">
-                  <ShieldAlertIcon />
-                </ItemMedia>
                 <ItemContent>
                   <ItemTitle>
                     {element.type + " - " + element.label + " (" + element.location + ")"}

@@ -27,7 +27,7 @@ export default function ResultView({logout, openAdmin, openSearch, errorMessage,
           </CardAction>
           <Combobox
             items={options}
-            defaultValue={options[0].key}
+            defaultValue={options[0]?.key}
             onValueChange={(value) => {changeSelectedOption(value)}}
           >
             <ComboboxInput placeholder=". . ." />
@@ -44,7 +44,9 @@ export default function ResultView({logout, openAdmin, openSearch, errorMessage,
           </Combobox>
         </CardHeader>
         <CardContent>
-          <ResultList option={selectedOption} />
+          {options.length > 0 && (
+            <ResultList option={selectedOption} />
+          )}
         </CardContent>
       </Card>
     </div>
