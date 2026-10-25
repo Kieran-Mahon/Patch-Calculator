@@ -45,7 +45,7 @@ export default function AdminView({logout, openSearch, errorMessage, completedMe
         <Button type="button" onClick={(e) => logout()}>
           LOG OUT
         </Button>
-        <h1>Admin</h1>
+        <p className="text-lg">Admin</p>
         <Button type="button" onClick={(e) => openSearch()}>
           PATH FIND
         </Button>

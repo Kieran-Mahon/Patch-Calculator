@@ -11,9 +11,9 @@ export default function LoginView({setUsername, setPassword, tryLogin, username,
   const imagePath = `${process.env.NODE_ENV === "production" ? "/Patch-Calculator" : ""}/tempimg.jpg`;
 
   return (
-    <div className="flex flex-col min-h-svh w-full items-center justify-center p-6 md:p-10">
+    <div className="flex flex-col min-h-svh w-full items-center justify-center p-6 md:p-10 gap-5">
 
-      <h1>Patch Path Finder</h1>
+      <p className="text-2xl">Patch Path Finder</p>
       
       <Image
         className="h-[200px] w-[200px]"

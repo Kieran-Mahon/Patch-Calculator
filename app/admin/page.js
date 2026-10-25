@@ -12,7 +12,7 @@ export default function Home() {
   const [ports, setPorts] = useState([]);
   const [connections, setConnections] = useState([]);
   const [adminModel, setAdminModel] = useState(null);
-  const [mode, setMode] = useState("REMOVE PORT");
+  const [mode, setMode] = useState("ADD PORT");
   const [startPort, setStartPort] = useState(null);
   const [endPort, setEndPort] = useState(null);
   const [connection, setConnection] = useState(null);

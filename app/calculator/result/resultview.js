@@ -11,7 +11,7 @@ export default function ResultView({logout, openAdmin, openSearch, errorMessage,
         <Button type="button" onClick={(e) => logout()}>
           LOG OUT
         </Button>
-        <h1>Path Calculator</h1>
+        <p className="text-lg">Path Calculator</p>
         <Button type="button" onClick={(e) => openAdmin()}>
           ADMIN
         </Button>
