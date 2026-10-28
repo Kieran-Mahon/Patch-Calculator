@@ -2,7 +2,7 @@
 
 ### A mobile focused web-based cable network path finding system.
 
-Patch Path Finder is a path finding tool designed for use in an audio/visual focused eviroment which allows you to pick a start port and end port and it will find the best path. It also includes where to place patch cables to complete the path.
+Patch Path Finder is a path finding tool designed for use in an audio/visual focused environment which allows the user to pick a start port and end port and it will find the best path between them. It also includes where to place patch cables to complete the path.
 
 ### This project was created for the COMP826 Mobile Systems Development - Milestone 1: Scope Study and System Design assessment.
 
@@ -13,19 +13,20 @@ Patch Path Finder is a path finding tool designed for use in an audio/visual foc
     * Add new ports
     * Remove unneeded ports
     * Add connections between ports
-    * Remove unnessary connections between ports
+    * Remove unnecessary connections between ports
 * Designed with distance calculations so the path will always be the shortest
-* Gives the user up to 3 options of paths in case the the first one is blocked.
+* Gives the user up to 3 options of paths in case the first one is blocked.
 
 ## How it works
-The system is built around a graph network where nodes are ports and edges are connections. A port is one of the common connectors (XLR, DMX, SDI, etc), while a connection is either a tieline (a direct connection) or patch (a connection which needs to be added by the user). The path finding uses the Yen's K-shortest path algorithm with use of Dijkstra's shortest path algorithm.
+The system is built around a graph network in which nodes represent ports and edges represent connections. A port is one of the common connectors (XLR, DMX, SDI, etc) used in the AV industry, while a connection is either a tieline (a direct connection between two ports) or patch (a connection which needs to be added by the user).
+The path finding uses the Yen's K-shortest path algorithm which uses Dijkstra's shortest path algorithm.
 
 ## What the example network looks like
 ![network example](<Readme Files/networkexample.png>)
-Blue are tielines and red are patchable links.
+Blue lines are tielines and red lines are patchable links.
 
 ## What it was built with
-* Next JS
+* Next.js
 * React
 * JavaScript
 * Tailwind CSS
@@ -33,7 +34,7 @@ Blue are tielines and red are patchable links.
 
 ## Requirements
 * Node.js
-* Node Package Manager
+* Node Package Manager (npm)
 
 
 ## Install
